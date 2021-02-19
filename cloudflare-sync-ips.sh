@@ -1,23 +1,34 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
-CLOUDFLARE_FILE_PATH=/etc/nginx/cloudflare
+NGINX_CF_FILE=/etc/nginx/cloudflare
 
-echo "#Cloudflare" > $CLOUDFLARE_FILE_PATH;
-echo "" >> $CLOUDFLARE_FILE_PATH;
+# Data endpoints
+CF_IPV4_ENDPOINT="${CF_IPV4_ENDPOINT:-https://www.cloudflare.com/ips-v4}"
+CF_IPV6_ENDPOINT="${CF_IPV6_ENDPOINT:-https://www.cloudflare.com/ips-v6}"
 
-echo "# - IPv4" >> $CLOUDFLARE_FILE_PATH;
-for i in `curl https://www.cloudflare.com/ips-v4`; do
-        echo "set_real_ip_from $i;" >> $CLOUDFLARE_FILE_PATH;
-done
+. ./src/functions.sh
 
-echo "" >> $CLOUDFLARE_FILE_PATH;
-echo "# - IPv6" >> $CLOUDFLARE_FILE_PATH;
-for i in `curl https://www.cloudflare.com/ips-v6`; do
-        echo "set_real_ip_from $i;" >> $CLOUDFLARE_FILE_PATH;
-done
+echo "#Cloudflare" > "${NGINX_CF_FILE}";
+echo "" >> "${NGINX_CF_FILE}";
 
-echo "" >> $CLOUDFLARE_FILE_PATH;
-echo "real_ip_header CF-Connecting-IP;" >> $CLOUDFLARE_FILE_PATH;
+echo "# - IPv4" >> "${NGINX_CF_FILE}";
 
-#test configuration and reload nginx
-nginx -t && systemctl reload nginx
+CF_IPV4_RANGES=$(fetchCloudFlareIPRanges "${CF_IPV4_ENDPOINT}")
+if [ -n "${CF_IPV4_RANGES}" ]; then
+  for IP_RANGE in ${CF_IPV4_RANGES}; do
+    echo "set_real_ip_from ${IP_RANGE};" >> "${NGINX_CF_FILE}";
+  done
+fi
+
+echo "" >> "${NGINX_CF_FILE}";
+echo "# - IPv6" >> "${NGINX_CF_FILE}";
+
+CF_IPV6_RANGES=$(fetchCloudFlareIPRanges "${CF_IPV6_ENDPOINT}")
+if [ -n "${CF_IPV6_RANGES}" ]; then
+  for IP_RANGE in ${CF_IPV6_RANGES}; do
+    echo "set_real_ip_from ${IP_RANGE};" >> "${NGINX_CF_FILE}";
+  done
+fi
+
+echo "" >> "${NGINX_CF_FILE}";
+echo "real_ip_header CF-Connecting-IP;" >> "${NGINX_CF_FILE}";
