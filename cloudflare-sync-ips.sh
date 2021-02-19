@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-NGINX_CF_FILE=/etc/nginx/cloudflare
+NGINX_CF_FILE="${NGINX_CF_FILE:-/etc/nginx/cloudflare}"
 
 # Data endpoints
 CF_IPV4_ENDPOINT="${CF_IPV4_ENDPOINT:-https://www.cloudflare.com/ips-v4/}"
