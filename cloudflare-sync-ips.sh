@@ -3,8 +3,8 @@
 NGINX_CF_FILE=/etc/nginx/cloudflare
 
 # Data endpoints
-CF_IPV4_ENDPOINT="${CF_IPV4_ENDPOINT:-https://www.cloudflare.com/ips-v4}"
-CF_IPV6_ENDPOINT="${CF_IPV6_ENDPOINT:-https://www.cloudflare.com/ips-v6}"
+CF_IPV4_ENDPOINT="${CF_IPV4_ENDPOINT:-https://www.cloudflare.com/ips-v4/}"
+CF_IPV6_ENDPOINT="${CF_IPV6_ENDPOINT:-https://www.cloudflare.com/ips-v6/}"
 
 . ./src/functions.sh
 
