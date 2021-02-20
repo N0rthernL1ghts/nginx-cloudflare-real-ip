@@ -24,7 +24,7 @@ fetchCloudFlareIPRanges() {
     return 1
   fi
 
-  CF_IP_RANGES=$(wget --content-on-error -qO- "${ENDPOINT}")
+  CF_IP_RANGES=$(curl --fail --silent "${ENDPOINT}")
 
   if [ "${?}" != 0 ]; then
     printlnError "Error: Fetching IP ranges from '${ENDPOINT}' failed. Invalid response"

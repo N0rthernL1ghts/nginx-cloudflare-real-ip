@@ -7,7 +7,9 @@ VERBOSE_MODE=${VERBOSE_MODE:-true}
 CF_IPV4_ENDPOINT="${CF_IPV4_ENDPOINT:-https://www.cloudflare.com/ips-v4/}"
 CF_IPV6_ENDPOINT="${CF_IPV6_ENDPOINT:-https://www.cloudflare.com/ips-v6/}"
 
-. ./src/functions.sh
+SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+. ${SCRIPTPATH}/src/functions.sh
 
 trap 'rm -f "${TMP_FILE}"' EXIT
 TMP_FILE="$(mktemp)"
