@@ -64,7 +64,7 @@ validateNginxConfig() {
   if isDockerContainer; then
 
     NGINX_CF_FILE=${CONF_FILE} /usr/local/bin/gomplate -V \
-      -o "${CONF_FILE}.full"\
+      -o "${CONF_FILE}.full" \
       -f /etc/templates/nginx.conf
 
     nginx -t -c "$(realpath ${CONF_FILE}.full)"

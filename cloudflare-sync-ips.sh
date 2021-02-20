@@ -7,7 +7,10 @@ VERBOSE_MODE=${VERBOSE_MODE:-true}
 CF_IPV4_ENDPOINT="${CF_IPV4_ENDPOINT:-https://www.cloudflare.com/ips-v4/}"
 CF_IPV6_ENDPOINT="${CF_IPV6_ENDPOINT:-https://www.cloudflare.com/ips-v6/}"
 
-SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+SCRIPTPATH="$(
+  cd "$(dirname "$0")" >/dev/null 2>&1
+  pwd -P
+)"
 
 . ${SCRIPTPATH}/src/functions.sh
 
