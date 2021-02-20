@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+set -e
+
+attr /app true nginx:nginx 0770 2771
